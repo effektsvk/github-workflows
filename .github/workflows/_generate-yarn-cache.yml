@@ -17,7 +17,7 @@ jobs:
         with:
           ref: ${{ inputs.commit_sha }}
       - name: Install dependencies
-        uses: technology-studio/github-workflows/.github/actions/install-dependencies@main
+        uses: technology-studio/github-workflows/.github/actions/install-app-dependencies@esl/generate-yarn-cache
         id: install
       - name: Save dependencies
         uses: technology-studio/github-workflows/.github/actions/save-dependencies@main
