@@ -13,13 +13,21 @@ jobs:
     name: '/'
     runs-on: ubuntu-latest
     steps:
+      - uses: navikt/github-app-token-generator@b96ff604b2300989cd1105e3fad09199fca56681 # v1
+        id: get-token
+        with:
+          app-id: ${{ secrets.CHECKS_TEST_APP_APP_ID }}
+          private-key: ${{ secrets.CHECKS_TEST_APP_PRIVATE_KEY }}
       - name: Checkout release candidate branch
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           ref: release-candidate
+          token: ${{ steps.get-token.outputs.token }}
       - name: Fetch full history of trunk branch
         run: git fetch origin ${{ inputs.trunk_branch_name }}
       - name: Fast-forward merge trunk into release candidate branch
+        env:
+          GH_TOKEN: ${{ steps.get-token.outputs.token }}
         run: |
           git config --global user.email "checks-test-app-effektsvk@users.noreply.github.com"
           git config --global user.name "Checks Test app - effeKtSVK[bot]"
