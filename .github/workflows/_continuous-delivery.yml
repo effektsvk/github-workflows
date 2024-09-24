@@ -27,8 +27,6 @@ jobs:
       - name: Fetch full history of trunk branch
         run: git fetch origin ${{ inputs.trunk_branch_name }}
       - name: Fast-forward merge trunk into release candidate branch
-        env:
-          GH_TOKEN: ${{ steps.get-token.outputs.token }}
         run: |
           git config --global user.email "checks-test-app-effektsvk@users.noreply.github.com"
           git config --global user.name "Checks Test app - effeKtSVK[bot]"
