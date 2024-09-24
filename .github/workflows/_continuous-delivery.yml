@@ -1,0 +1,28 @@
+name: 'Continuous delivery'
+
+on:
+  workflow_call:
+    inputs:
+      trunk_branch_name:
+        required: true
+        type: string
+        default: main
+
+jobs:
+  continuous-delivery:
+    name: '/'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout release candidate branch
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        with:
+          ref: release-candidate
+      - name: Fetch full history of trunk branch
+        run: git fetch origin ${{ inputs.trunk_branch_name }}
+      - name: Fast-forward merge trunk into release candidate branch
+        run: |
+          git config --global user.email "checks-test-app-effektsvk@users.noreply.github.com"
+          git config --global user.name "Checks Test app - effeKtSVK[bot]"
+          git merge --ff-only origin/${{ inputs.trunk_branch_name }}
+          git push
+        shell: bash
