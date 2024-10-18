@@ -1,7 +1,6 @@
 name: Install dependencies
 description: Install dependencies using yarn and enable caching
 author: 'Technology Studio'
-inputs:
 
 outputs:
   download-cache-dir:
